@@ -1,0 +1,94 @@
+---
+import type { HTMLAttributes } from "astro/types";
+interface Props extends HTMLAttributes<"ul" | "ol"> {
+	type?: "unordered" | "ordered";
+	icon?: "default" | "none" | "check" | "x";
+	items?: { title: string; checked: boolean }[];
+}
+
+const {
+	type = "unordered",
+	icon = "default",
+	items = [],
+	class: className,
+	...rest
+} = Astro.props;
+
+const ListElement = type === "unordered" ? "ul" : "ol";
+
+const iconClass = icon === "default" ? "" : icon;
+---
+
+<ListElement
+	class:list={["list", iconClass && `list--${icon}`, className]}
+	{...rest}
+>
+	{
+		items.map(({ title, checked }) => (
+			<li
+				class:list={[
+					"list__item",
+					`list__item--${checked ? "check" : "x"}`,
+				]}
+			>
+				{title}
+			</li>
+		))
+	}
+</ListElement>
+
+<style is:global lang="scss">
+	// LIST ELEMENT
+	.list {
+		margin: 0;
+		display: grid;
+		gap: 4px;
+	}
+	.list--none {
+		list-style: none;
+		padding: 0;
+	}
+
+	// LIST ITEM
+	.list__item {
+		--_padding: calc(40rem / 16);
+		--_icon-url: ;
+		--_size: ;
+		position: relative;
+
+		&::before {
+			position: absolute;
+			content: " ";
+			left: -38px;
+			width: var(--_size, 20px);
+			height: var(--_size, 20px);
+			background-image: var(--_icon-url);
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+	}
+
+	.list__item--default {
+		list-style-type: disc;
+		&::before {
+			display: none;
+		}
+	}
+
+	.list__item--none {
+		--_padding: 0;
+	}
+
+	.list__item--check {
+		--_size: 20px;
+		--_icon-url: url("/src/icons/check.svg");
+		list-style-type: none;
+	}
+
+	.list__item--x {
+		--_size: 20px;
+		--_icon-url: url("/src/icons/cross.svg");
+		list-style-type: none;
+	}
+</style>

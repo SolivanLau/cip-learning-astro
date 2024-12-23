@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+	external?: boolean;
+	button?: boolean;
+}
+
+const {
+	external = false,
+	button = false,
+	class: className,
+	...rest
+} = Astro.props;
+
+const target = external ? "_blank" : undefined;
+
+const rel = external ? "noopener noreferrer" : undefined;
+---
+
+<a
+	class:list={["link", button && "button", className]}
+	target={target}
+	rel={rel}
+	{...rest}
+>
+	<slot />
+</a>
+
+<style is:global lang="scss">
+	.link {
+		text-decoration: none;
+	}
+</style>

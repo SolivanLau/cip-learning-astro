@@ -1,0 +1,133 @@
+---
+import type { HTMLAttributes } from "astro/types";
+interface Props extends HTMLAttributes<"article"> {
+	tier: string;
+	most_popular?: boolean;
+	price: number;
+	title: string;
+	description: string;
+}
+const { tier, most_popular = false, price, title, description } = Astro.props;
+
+const color =
+	tier === "Pro"
+		? "var(--clr-blue)"
+		: tier === "Enterprise"
+			? "var(--clr-yellow)"
+			: "var(--clr-black)";
+---
+
+<article class:list={["card", most_popular && "card--most-popular"]}>
+	<!-- TIER -->
+	<p class:list={["card__tier", tier !== "Free" && "card__tier--primary"]}>
+		{tier}
+	</p>
+
+	<!-- BADGE: Most popular -->
+	{most_popular && <p class="card__badge ">Most Popular</p>}
+	<!-- PRICE -->
+	<div class:list={["card__price", "grid", "mt-800"]}>
+		<h3 class="card__price__amount fs-1000">
+			<span class="card__price__dollar fs-400">$</span>
+			{price}
+			{price > 0 && <span class="card__price__month fs-400">/mo</span>}
+		</h3>
+		<p class="card__description">{description}</p>
+	</div>
+	<!-- CTA -->
+	{
+		Astro.slots.has("card__cta") && (
+			<div class="card__cta">
+				<slot name="card__cta" />
+			</div>
+		)
+	}
+
+	<!-- LIST -->
+	{
+		Astro.slots.has("card__features") && (
+			<div class="card__features">
+				<slot name="card__features" />
+			</div>
+		)
+	}
+</article>
+
+<style is:global lang="scss" define:vars={{ "tier-color": color }}>
+	.card {
+		--_shadow: var(--clr-shadow);
+		--_padding: 30px;
+		--_clr-tier: var(--tier-color);
+		position: relative;
+		padding-block-end: var(--_padding);
+		border-radius: var(--bdr-radius);
+		box-shadow: var(--_shadow);
+		display: grid;
+		gap: 20px;
+	}
+
+	.card--most-popular {
+		--_shadow: var(--clr-shadow-dark);
+	}
+
+	// CONTENTS
+
+	// padding
+	.card__price,
+	.card__cta,
+	.card__features {
+		padding-inline: var(--_padding);
+	}
+
+	// banner
+	.card__tier {
+		border-radius: var(--bdr-radius) var(--bdr-radius) 0 0;
+		padding: calc(var(--_padding) / 2) var(--_padding);
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--clr-blue);
+		min-height: 30px;
+		display: grid;
+		align-items: center;
+	}
+
+	.card__tier--primary {
+		background-color: var(--_clr-tier);
+		color: var(--clr-text--light);
+	}
+
+	// most popular badge
+	.card__badge {
+		position: absolute;
+		top: 20%;
+		left: 50%;
+		transform: translateX(-50%) rotate(2deg);
+		width: max-content;
+		padding: 0.5em 1em;
+		background-color: var(--clr-black);
+		color: var(--clr-text--light);
+	}
+	// price
+	.card__price {
+		--_padding: 60px;
+		text-align: center;
+	}
+
+	.card__price__amount {
+		display: flex;
+		justify-content: center;
+	}
+
+	.card__price__dollar {
+		align-self: start;
+	}
+
+	.card__price__month {
+		align-self: end;
+		margin-block-end: 0.5rem;
+	}
+	.card__cta {
+		display: grid;
+	}
+</style>

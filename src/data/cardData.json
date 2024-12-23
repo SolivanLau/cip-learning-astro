@@ -7,7 +7,7 @@
     "description": "Discover how to create your first projects",
     "btn_text": "Get started",
     "features": [
-      {
+        {
         "title": "3 new projects/month",
         "checked": true
       },

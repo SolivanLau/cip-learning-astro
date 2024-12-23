@@ -1,22 +1,72 @@
 ---
-import type {HTMLAttributes} from "astro/types";
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<"button">{
-    theme?: "primary" | "secondary"
+// Separate interfaces for button and anchor props
+interface Props extends HTMLAttributes<"button"> {
+	isLink?: false;
+	theme?: "primary" | "secondary";
+	color?: "black" | "blue" | "yellow";
 }
-const {theme = "primary", class:className, ...rest} = Astro.props
+
+const {
+	theme = "primary",
+	color = "black",
+	class: className,
+	...rest
+} = Astro.props;
+
+const presetColors = {
+	black: "--clr-black",
+	blue: "--clr-blue",
+	yellow: "--clr-yellow",
+};
+
+const presetColor = `var(${presetColors[color]})`;
+
+// link options
 ---
 
-<button class="button">
-    <slot />
+<button class:list={["button", `button--${theme}`, className]} {...rest}>
+	<slot />
 </button>
 
-<style is:global lang="scss">
-    // manual reset class
-    .button {
-        --_clr: ;
-        --_bg-clr: ;
-        --_bdr: ;
-    }
+<style is:global lang="scss" define:vars={{ presetColor }}>
+	// manual reset class
+	.button {
+		--_clr: ;
+		--_bg-clr: ;
+		--_bdr-clr: ;
 
+		background-color: var(--_bg-clr);
+		border: 2px solid var(--_bdr-clr);
+		color: var(--_clr);
+		padding: 0.5rem 1rem;
+		border-radius: var(--bdr-radius);
+		cursor: pointer;
+
+		transition: filter 200ms ease-in-out;
+
+		&:hover,
+		&:focus-visible {
+			filter: brightness(90%);
+		}
+
+		&:active {
+			filter: brightness(80%);
+		}
+	}
+
+	// filled
+	.button--primary {
+		--_clr: var(--clr-text--light);
+		--_bg-clr: var(--presetColor);
+		--_bdr-clr: var(--presetColor);
+	}
+
+	// outline, not filled
+	.button--secondary {
+		--_clr: var(--presetColor);
+		--_bg-clr: transparent;
+		--_bdr-clr: var(--presetColor);
+	}
 </style>

@@ -1,41 +1,44 @@
+@use "sass:math" as *;
 @use "../abstracts" as *;
 :root {
-  // COLORS
-  // neutrals
-  --clr-white: #f4f4f9;
-  --clr-black: #0c0c1d;
+	// COLORS
+	// neutrals
+	--clr-white: #f4f4f9;
+	--clr-black: #0c0c1d;
 
-  // brand
-  --clr-blue: #4c4cb2;
-  --clr-yellow: #d0aa25;
-  --clr-red: #d93535;
-  --clr-green: #1eac3e;
+	// brand
+	--clr-blue: #4c4cb2;
+	--clr-yellow: #d0aa25;
+	--clr-red: #d93535;
+	--clr-green: #1eac3e;
 
-  // gradients
+	// gradients
 
-  // shadows
-  --clr-shadow: 0px 20px 25px 0px rgba(194, 194, 214, 0.3);
-  --clr-shadow-dark: 0px 20px 25px 0px rgba(76, 76, 178, 0.2);
-  // assignment
-  --clr-text--dark: var(--clr-black);
-  --clr-text--light: var(--clr-white);
-  // text
-  --fm-primary: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-    Arial, sans-serif;
-  --fs-200: calc(12rem / 16);
-  --fs-300: calc(14rem / 16);
-  --fs-400: calc(16rem / 16);
-  --fs-500: calc(18rem / 16);
-  // border
-  --bdr-radius: 12px;
-  --bdr-radius--pill: 500px;
-  --bdr-radius--circle: 50%;
-  // spacing
-  --spc-200: calc(8rem / 16);
-  --spc-300: calc(12rem / 16);
-  --spc-400: calc(16rem / 16);
-  --spc-500: calc(20rem / 16);
-  --spc-600: calc(24rem / 16);
-  --spc-700: calc(28rem / 16);
-  --spc-800: calc(32rem / 16);
+	// shadows
+	--clr-shadow: 0px 20px 25px 0px rgba(194, 194, 214, 0.3);
+	--clr-shadow-dark: 0px 20px 25px 0px rgba(76, 76, 178, 0.2);
+	// assignment
+	--clr-text--dark: var(--clr-black);
+	--clr-text--light: var(--clr-white);
+	// text
+	// family
+	--fm-primary: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+		Arial, sans-serif;
+	// font size
+	@each $key, $value in $third-minor-scale {
+		$rem-value: $value * 1rem;
+		--fs-#{$key}: #{$rem-value};
+	}
+	// border
+	--bdr-radius: 8px;
+	--bdr-radius--pill: 500px;
+	--bdr-radius--circle: 50%;
+	// spacing
+	--spc-200: calc(8rem / 16);
+	--spc-300: calc(12rem / 16);
+	--spc-400: calc(16rem / 16);
+	--spc-500: calc(20rem / 16);
+	--spc-600: calc(24rem / 16);
+	--spc-700: calc(28rem / 16);
+	--spc-800: calc(32rem / 16);
 }

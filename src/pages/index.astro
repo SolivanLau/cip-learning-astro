@@ -1,3 +1,65 @@
 ---
+import Button from "../components/Button.astro";
+import Link from "../components/Link.astro";
+import List from "../components/List.astro";
+import Card from "../components/Card.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import data from "../data/cardData.json";
 ---
 
+<BaseLayout title="Home">
+	<div class="wrapper">
+		<h1>Home</h1>
+
+		<div class="grid grid--thirds grid--pricing-cards mt-800">
+			{
+				data.map(
+					({
+						tier,
+						most_popular,
+						amount_per_month,
+						title,
+						description,
+						btn_text,
+						features,
+					}) => (
+						<Card
+							most_popular={most_popular}
+							tier={tier}
+							price={amount_per_month}
+							title={title}
+							description={description}
+						>
+							<Button
+								slot="card__cta"
+								color={
+									tier === "Free"
+										? "black"
+										: tier === "Pro"
+											? "blue"
+											: "yellow"
+								}
+								theme={most_popular ? "primary" : "secondary"}
+							>
+								{btn_text}
+							</Button>
+
+							<List slot="card__features" items={features} />
+						</Card>
+					)
+				)
+			}
+		</div>
+	</div>
+</BaseLayout>
+
+<style is:global lang="scss">
+	.grid--pricing-cards {
+		gap: 10px;
+
+		@media (min-width: 901px) {
+			gap: 30px;
+		}
+	}
+</style>
