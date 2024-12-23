@@ -27,11 +27,11 @@ const color =
 	{most_popular && <p class="card__badge ">Most Popular</p>}
 	<!-- PRICE -->
 	<div class:list={["card__price", "grid", "mt-800"]}>
-		<h3 class="card__price__amount fs-1000">
+		<h2 class="card__price__amount fs-1000">
 			<span class="card__price__dollar fs-400">$</span>
 			{price}
 			{price > 0 && <span class="card__price__month fs-400">/mo</span>}
-		</h3>
+		</h2>
 		<p class="card__description">{description}</p>
 	</div>
 	<!-- CTA -->
