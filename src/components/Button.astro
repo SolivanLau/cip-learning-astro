@@ -1,0 +1,28 @@
+---
+
+---
+
+<button class="button">
+	<slot />
+</button>
+
+<style>
+	.button {
+		display: inline-block;
+		padding: 0.5em 1em;
+		border-radius: 0.5em;
+		background-color: var(--clr-blue);
+		color: var(--clr-text--light);
+		text-decoration: none;
+	}
+</style>
+
+<script>
+	const buttons = document.querySelectorAll(".button");
+
+	buttons.forEach((button) => {
+		button.addEventListener("click", () => {
+			console.log("CLICK");
+		});
+	});
+</script>

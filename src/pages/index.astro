@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+import { Content as Markdown } from "../content/promoBanner.md";
 ---
 
 <BaseLayout title="Markdown & MDX">
-	<div class="wrapper">
+	<div class="wrapper flow">
 		<h1>Markdown</h1>
+		<Markdown />
 	</div>
 </BaseLayout>
